@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Address Blocks with Background Images</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 10px;
+            background-color: #f4f4f4;
+        }
+
+        .block {
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            font-size: 20px;
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .block:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .block:hover {
+            transform: scale(1.05);
+        }
+
+        .block div {
+            position: relative;
+            z-index: 2;
+        }
+
+        .block1 {
+            background-image: url('hospi.jpg'); /* Replace with your first image */
+        }
+
+        .block2 {
+            background-image: url('hospi1.jpeg'); /* Replace with your second image */
+        }
+
+        .block3 {
+            background-image: url('hospi2.jpeg'); /* Replace with your third image */
+        }
+
+        .block4 {
+            background-image: url('hospi3.jpeg'); /* Replace with your fourth image */
+        }
+
+        .block5 {
+            background-image: url('hospi4.jpg'); /* Replace with your fifth image */
+        }
+
+        .block6 {
+            background-image: url('hospi1.jpeg'); /* Replace with your sixth image */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="block block1" onclick="location.href='page1.html'">
+        <div>Name 1</div>
+        <div>Address 1</div>
+    </div>
+    <div class="block block2" onclick="location.href='page2.html'">
+        <div>Name 2</div>
+        <div>Address 2</div>
+    </div>
+    <div class="block block3" onclick="location.href='page3.html'">
+        <div>Name 3</div>
+        <div>Address 3</div>
+    </div>
+    <div class="block block4" onclick="location.href='page4.html'">
+        <div>Name 4</div>
+        <div>Address 4</div>
+    </div>
+    <div class="block block5" onclick="location.href='page5.html'">
+        <div>Name 5</div>
+        <div>Address 5</div>
+    </div>
+    <div class="block block6" onclick="location.href='page6.html'">
+        <div>Name 6</div>
+        <div>Address 6</div>
+    </div>
+
+</body>
+</html>

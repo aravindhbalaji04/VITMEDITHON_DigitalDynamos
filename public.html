@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management Search</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: url('bg3.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            width: 60%;
+            padding: 15px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            outline: none;
+        }
+
+        .search-bar:focus {
+            border-color: #0074D9;
+        }
+
+        
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .button-group button {
+            padding: 15px 30px;
+            background-color: #09508f;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 10px;
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .button-group button:hover {
+            background-color: #afccea;
+        }
+
+        .location-prompt {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .curved-button {
+    background-color: #1d262e91; /* Set your preferred background color */
+    color: rgb(235, 2, 2); /* Button text color */
+    padding: 12px 25px; /* Padding for the button */
+    border: none; /* Remove default border */
+    border-radius: 30px; /* Curved ends */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Adjust font size */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.curved-button:hover {
+    background-color: #005bb5a3; /* Change background color on hover */
+}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search hospitals, doctors, treatments, etc...">
+        </div>
+
+        <div class="button-group">
+            <button onclick="searchHospitals()">Hospitals</button>
+            <button onclick="searchDoctors()">Doctors</button>
+            <button onclick="searchTreatments()">Treatments</button>
+            <button onclick="searchExpenses()">Expenses</button>
+        </div>
+
+        <div class="location-prompt" id="location-prompt">
+            <h2>Allow location access to find the best healthcare options near you</h2>
+            <button onclick="getLocation()" class="curved-button ">Allow Location Access</button>
+        </div>
+    </div>
+
+    <script>
+    
+
+        function searchHospitals() {
+            window.location.href="hosp.html"
+        }
+
+        function searchDoctors() {
+            window.location.href="doc.html";
+        }
+
+        function searchTreatments() {
+            alert("Searching Treatments...");
+        }
+
+        function searchExpenses() {
+            alert("Searching Expenses...");
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                document.getElementById('location-prompt').innerHTML = "<p>Geolocation is not supported by this browser.</p>";
+            }
+        }
+
+        function showPosition(position) {
+            document.getElementById('location-prompt').innerHTML = `
+                <p>Location accessed successfully. Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}</p>
+            `;
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById('location-prompt').innerHTML = "<p>User denied the request for Geolocation.</p>";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById('location-prompt').innerHTML = "<p>Location information is unavailable.</p>";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById('location-prompt').innerHTML = "<p>The request to get user location timed out.</p>";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById('location-prompt').innerHTML = "<p>An unknown error occurred.</p>";
+                    break;
+            }
+        }
+    </script>
+    
+</body>
+</html>

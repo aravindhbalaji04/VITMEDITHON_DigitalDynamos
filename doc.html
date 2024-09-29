@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specialist Doctors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .doctor-block {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            margin: 15px;
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.2s;
+        }
+
+        .doctor-block:hover {
+            transform: translateY(-10px);
+        }
+
+        .doctor-block img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .doctor-block h3 {
+            font-size: 20px;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .doctor-block p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Eye Specialist Block -->
+        <div class="doctor-block">
+            <img src="eye.png" alt="Eye Specialist">
+            <h3>Eye Specialist</h3>
+            <p>Ophthalmologist</p>
+        </div>
+
+        <!-- Ear Specialist Block -->
+        <div class="doctor-block">
+            <img src="ear.png" alt="ENT Specialist">
+            <h3>ENT Specialist</h3>
+            <p>Otolaryngologist</p>
+        </div>
+
+        <!-- Heart Specialist Block -->
+        <div class="doctor-block">
+            <img src="heart.png" alt="Heart Specialist">
+            <h3>Heart Specialist</h3>
+            <p>Cardiologist</p>
+        </div>
+
+        <!-- Kidney Specialist Block -->
+        <div class="doctor-block">
+            <img src="kidney.jpg" alt="Kidney Specialist">
+            <h3>Kidney Specialist</h3>
+            <p>Nephrologist</p>
+        </div>
+
+        <!-- More Doctor Blocks as Needed -->
+        <div class="doctor-block">
+            <img src="lungs.png" alt="Lung Specialist">
+            <h3>Lung Specialist</h3>
+            <p>Pulmonologist</p>
+        </div>
+    </div>
+
+</body>
+</html>

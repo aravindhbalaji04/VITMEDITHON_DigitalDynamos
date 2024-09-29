@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Resource Analysis Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        .chart-container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            margin: 15px 0;
+            position: relative;
+            height: 40px;
+            border-radius: 10px;
+        }
+
+        .bar-inner {
+            height: 100%;
+            border-radius: 10px;
+            text-align: right;
+            padding-right: 10px;
+            line-height: 40px;
+            color: #fff;
+            font-weight: bold;
+            transition: width 0.5s ease;
+        }
+
+        .bar-label {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: #333;
+            font-weight: bold;
+        }
+
+        .input-container {
+            width: 80%;
+            margin: 20px auto;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input-group label {
+            margin-bottom: 10px;
+        }
+
+        .input-group input {
+            padding: 5px;
+            width: 80px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #3498db;
+        }
+
+        .alert-message {
+            color: orange;
+            text-align: center;
+            margin-top: 10px;
+            display: none; /* Initially hidden */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Hospital Resource Analysis</h1>
+    </header>
+
+    <section class="chart-container">
+        <div class="bar">
+            <div class="bar-label">Beds Available</div>
+            <div id="beds-bar" class="bar-inner" style="width: 0%;">0</div>
+        </div>
+        <div class="bar">
+            <div class="bar-label">ICU Beds Available</div>
+            <div id="icu-bar" class="bar-inner" style="width: 0%;">0</div>
+        </div>
+        <div class="bar">
+            <div class="bar-label">Ventilators</div>
+            <div id="ventilators-bar" class="bar-inner" style="width: 0%;">0</div>
+        </div>
+        <div class="bar">
+            <div class="bar-label">Doctors on Duty</div>
+            <div id="doctors-bar" class="bar-inner" style="width: 0%;">0</div>
+        </div>
+    </section>
+
+    <section class="input-container">
+        <div class="input-group">
+            <label for="beds">Beds Available</label>
+            <input type="number" id="beds" value="120">
+        </div>
+        <div class="input-group">
+            <label for="icu-beds">ICU Beds Available</label>
+            <input type="number" id="icu-beds" value="15">
+        </div>
+        <div class="input-group">
+            <label for="ventilators">Ventilators</label>
+            <input type="number" id="ventilators" value="8">
+        </div>
+        <div class="input-group">
+            <label for="doctors">Doctors on Duty</label>
+            <input type="number" id="doctors" value="25">
+        </div>
+    </section>
+
+    <section class="input-container">
+        <button onclick="updateChart()">Update Chart</button>
+        <button onclick="resetInputs()">Reset</button>
+    </section>
+
+    <div class="alert-message" id="alert-message">Warning: Please consider adding more resources!</div>
+
+    <script>
+        const maxResources = {
+            beds: 500,
+            icuBeds: 500,
+            ventilators: 500,
+            doctors: 500
+        };
+
+        function updateChart() {
+            const bedsAvailable = document.getElementById('beds').value;
+            const icuBedsAvailable = document.getElementById('icu-beds').value;
+            const ventilatorsAvailable = document.getElementById('ventilators').value;
+            const doctorsOnDuty = document.getElementById('doctors').value;
+
+            // Input validation
+            if (bedsAvailable < 0 || icuBedsAvailable < 0 || ventilatorsAvailable < 0 || doctorsOnDuty < 0) {
+                alert("Please enter valid non-negative numbers.");
+                return;
+            }
+
+            const bedsPercentage = (bedsAvailable / maxResources.beds) * 100;
+            const icuBedsPercentage = (icuBedsAvailable / maxResources.icuBeds) * 100;
+            const ventilatorsPercentage = (ventilatorsAvailable / maxResources.ventilators) * 100;
+            const doctorsPercentage = (doctorsOnDuty / maxResources.doctors) * 100;
+
+            updateBar('beds-bar', bedsAvailable, bedsPercentage);
+            updateBar('icu-bar', icuBedsAvailable, icuBedsPercentage);
+            updateBar('ventilators-bar', ventilatorsAvailable, ventilatorsPercentage);
+            updateBar('doctors-bar', doctorsOnDuty, doctorsPercentage);
+        }
+
+        function updateBar(barId, value, percentage) {
+            const bar = document.getElementById(barId);
+            bar.style.width = percentage + '%';
+            bar.textContent = value;
+
+            const alertMessage = document.getElementById('alert-message');
+            alertMessage.style.display = 'none'; // Hide the alert message initially
+
+            // Change colors based on thresholds
+            if (percentage < 25) {
+                bar.style.backgroundColor = 'orange';
+                alertMessage.style.display = 'block'; // Show alert message
+            } else if (percentage < 50) {
+                bar.style.backgroundColor = 'red';
+                alert(`Warning: ${barId.replace('-bar', '').replace('-', ' ')} has dropped below 50%!`);
+            } else {
+                bar.style.backgroundColor = '#27ae60'; // Reset to original color
+            }
+        }
+
+        function resetInputs() {
+            document.getElementById('beds').value = 120;
+            document.getElementById('icu-beds').value = 15;
+            document.getElementById('ventilators').value = 8;
+            document.getElementById('doctors').value = 25;
+
+            updateChart(); // Reset the chart to default values
+        }
+    </script>
+
+</body>
+</html>
