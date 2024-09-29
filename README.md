@@ -1,4 +1,4 @@
-# Hospital Management Website
+# Resourcify Health
 
 ## "Caring Beyond Limits, Connecting Health with Hope."
 
