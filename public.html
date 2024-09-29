@@ -100,12 +100,12 @@
         <div class="button-group">
             <button onclick="searchHospitals()">Hospitals</button>
             <button onclick="searchDoctors()">Doctors</button>
-            <button onclick="searchTreatments()">Treatments</button>
-            <button onclick="searchExpenses()">Expenses</button>
+            <button onclick="searchTreatments()">Treatments and Expenses</button>
+           
         </div>
 
         <div class="location-prompt" id="location-prompt">
-            <h2>Allow location access to find the best healthcare options near you</h2>
+           <marquee behavior="alternate" > <h2>Allow location access to find the best healthcare options near you</h2></marquee>
             <button onclick="getLocation()" class="curved-button ">Allow Location Access</button>
         </div>
     </div>
@@ -122,12 +122,10 @@
         }
 
         function searchTreatments() {
-            alert("Searching Treatments...");
+            window.location.href="treat.html";
         }
 
-        function searchExpenses() {
-            alert("Searching Expenses...");
-        }
+       
 
         function getLocation() {
             if (navigator.geolocation) {

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Treatments and Prices</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9f5ff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .treatment-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 15px;
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .treatment-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .treatment-card h3 {
+            font-size: 24px;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .treatment-card p {
+            font-size: 16px;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .price {
+            font-size: 20px;
+            color: #007bff;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Explore Our Medical Treatments</h1>
+        <p>Providing comprehensive treatment options at competitive prices</p>
+    </div>
+
+    <div class="container">
+        <!-- Treatment Card 1 -->
+        <div class="treatment-card">
+            <h3>Heart Bypass Surgery</h3>
+            <p>Minimally invasive heart surgery</p>
+            <p class="price">$30,000</p>
+            <a href="#" class="btn">Learn More</a>
+        </div>
+
+        <!-- Treatment Card 2 -->
+        <div class="treatment-card">
+            <h3>Knee Replacement</h3>
+            <p>Surgical procedure to replace knee joint</p>
+            <p class="price">$20,000</p>
+            <a href="#" class="btn">Learn More</a>
+        </div>
+
+        <!-- Treatment Card 3 -->
+        <div class="treatment-card">
+            <h3>Cataract Surgery</h3>
+            <p>Removing the cloudy lens from the eye</p>
+            <p class="price">$5,000</p>
+            <a href="#" class="btn">Learn More</a>
+        </div>
+
+        <!-- Treatment Card 4 -->
+        <div class="treatment-card">
+            <h3>Appendectomy</h3>
+            <p>Surgical removal of the appendix</p>
+            <p class="price">$15,000</p>
+            <a href="#" class="btn">Learn More</a>
+        </div>
+
+        <!-- Treatment Card 5 -->
+        <div class="treatment-card">
+            <h3>Hernia Repair</h3>
+            <p>Repairing hernias through surgery</p>
+            <p class="price">$10,000</p>
+            <a href="#" class="btn">Learn More</a>
+        </div>
+
+        <!-- Treatment Card 6 -->
+        <div class="treatment-card">
+            <h3>Gallbladder Removal</h3>
+            <p>Laparoscopic removal of the gallbladder</p>
+            <p class="price">$12,000</p>
+            <a href="#" class="btn">Learn More</a>
+        </div>
+    </div>
+
+</body>
+</html>

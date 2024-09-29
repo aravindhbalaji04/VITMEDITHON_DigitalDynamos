@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Insurance Checker</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container styling */
+        .container {
+            background-color: #ffffff;
+            max-width: 600px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+
+        /* Styling the labels */
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Styling the input fields */
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        input:focus, select:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+            outline: none;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Hidden sections */
+        .hidden {
+            display: none;
+        }
+
+        /* Styling for the result section */
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e7f3fe;
+            color: #31708f;
+            border: 1px solid #bce8f1;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Customize placeholder text */
+        input::placeholder {
+            color: #888;
+        }
+
+        /* Custom animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Animations when result shows */
+        #result {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Check Health Insurance Coverage</h2>
+
+    <form id="insuranceForm">
+        <label for="treatmentCost">Enter Treatment Cost (in INR):</label>
+        <input type="number" id="treatmentCost" name="treatmentCost" placeholder="e.g., 50000" required>
+
+        <label for="insuranceStatus">Do you have existing health insurance?</label>
+        <select id="insuranceStatus" name="insuranceStatus" required>
+            <option value="">--Select an option--</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+
+        <!-- This section will appear if the user has insurance -->
+        <div id="insuranceDetails" class="hidden">
+            <label for="insuranceCoverage">Enter Insurance Coverage (as a percentage):</label>
+            <input type="number" id="insuranceCoverage" name="insuranceCoverage" placeholder="e.g., 80" min="0" max="100">
+        </div>
+
+        <!-- This section will appear if the user does not have insurance -->
+        <div id="noInsuranceDetails" class="hidden">
+            <p>We recommend getting an insurance policy to cover future treatments. Would you like suggestions?</p>
+            <label for="loanOption">Do you want a health loan?</label>
+            <select id="loanOption" name="loanOption">
+                <option value="">--Select an option--</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+
+        <button type="submit">Check Coverage</button>
+    </form>
+
+    <!-- Output Section -->
+    <div id="result" class="hidden">
+        <h3>Coverage Details</h3>
+        <p id="resultText"></p>
+    </div>
+</div>
+
+<script>
+    const insuranceStatus = document.getElementById('insuranceStatus');
+    const insuranceDetails = document.getElementById('insuranceDetails');
+    const noInsuranceDetails = document.getElementById('noInsuranceDetails');
+    const result = document.getElementById('result');
+    const resultText = document.getElementById('resultText');
+
+    insuranceStatus.addEventListener('change', function() {
+        if (this.value === 'yes') {
+            insuranceDetails.classList.remove('hidden');
+            noInsuranceDetails.classList.add('hidden');
+        } else if (this.value === 'no') {
+            insuranceDetails.classList.add('hidden');
+            noInsuranceDetails.classList.remove('hidden');
+        } else {
+            insuranceDetails.classList.add('hidden');
+            noInsuranceDetails.classList.add('hidden');
+        }
+    });
+
+    document.getElementById('insuranceForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const treatmentCost = parseFloat(document.getElementById('treatmentCost').value);
+        const insuranceStatusValue = insuranceStatus.value;
+        
+        if (insuranceStatusValue === 'yes') {
+            const coveragePercentage = parseFloat(document.getElementById('insuranceCoverage').value);
+            const coverageAmount = (coveragePercentage / 100) * treatmentCost;
+            const outOfPocket = treatmentCost - coverageAmount;
+
+            resultText.innerHTML = `
+                Your insurance will cover INR ${coverageAmount.toFixed(2)}, 
+                and you need to pay INR ${outOfPocket.toFixed(2)} out of pocket.
+            `;
+        } else if (insuranceStatusValue === 'no') {
+            const loanOption = document.getElementById('loanOption').value;
+            let loanMessage = '';
+
+            if (loanOption === 'yes') {
+                loanMessage = 'We will assist you in applying for a health loan.';
+            } else {
+                loanMessage = 'Feel free to contact us for more information on health loan options.';
+            }
+
+            resultText.innerHTML = `
+                We suggest taking an insurance policy that suits your needs. 
+                ${loanMessage}
+            `;
+        }
+
+        result.classList.remove('hidden');
+    });
+</script>
+
+</body>
+</html>
