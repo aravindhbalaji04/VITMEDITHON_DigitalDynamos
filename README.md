@@ -1,5 +1,7 @@
 # Hospital Management Website
 
+##"Caring Beyond Limits, Connecting Health with Hope."
+
 ## Overview
 
 This website provides a platform for managing hospitals efficiently and serves as a bridge between the public and hospitals. The site allows users to easily select hospitals based on their medical needs and helps hospitals streamline their resource and inventory management. Additionally, patients can apply for medical loans directly through the platform, and an AI chatbot assists both hospitals and the public by offering intelligent suggestions and guidance.
