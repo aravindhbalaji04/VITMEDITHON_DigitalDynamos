@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Resource Analysis Dashboard</title>
+    <title>Hospital Management</title>
     <style>
         * {
             margin: 0;
@@ -13,28 +13,90 @@
         }
 
         body {
-            background-color: #f4f4f4;
+            background: linear-gradient(to right, #e0f7fa, #80deea);
             padding: 20px;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: #333;
-        }
-
-        .chart-container {
-            width: 80%;
-            margin: 0 auto;
+        .container {
+            max-width: 1200px;
+            margin: auto;
             padding: 20px;
-            background-color: #fff;
-            border: 1px solid #ddd;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+       
+
+        .home-button:hover {
+            background-color: #E64A19;
+        }
+
+        .resource-input {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding: 20px;
+            background: #fce4ec;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-input div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .resource-input label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #880e4f;
+        }
+
+        .resource-input input {
+            padding: 10px;
+            width: 80px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border 0.3s;
+        }
+
+        .resource-input input:focus {
+            border-color: #FF5722;
+            box-shadow: 0 0 5px rgba(255, 87, 34, 0.5);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .button-group button {
+            padding: 15px 30px;
+            background-color: #0074D9;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .button-group button:hover {
+            background-color: #005bb5;
+        }
+
+        /* Graph Section */
+        .chart-container {
+            display: none; /* Initially hidden */
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .bar {
@@ -44,6 +106,7 @@
             position: relative;
             height: 40px;
             border-radius: 10px;
+            overflow: hidden; /* Ensures that inner bars are clipped to the parent */
         }
 
         .bar-inner {
@@ -65,112 +128,71 @@
             color: #333;
             font-weight: bold;
         }
-
-        .input-container {
-            width: 80%;
-            margin: 20px auto;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .input-group label {
-            margin-bottom: 10px;
-        }
-
-        .input-group input {
-            padding: 5px;
-            width: 80px;
-            text-align: center;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #2980b9;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        button:hover {
-            background-color: #3498db;
-        }
-
-        .alert-message {
-            color: orange;
-            text-align: center;
-            margin-top: 10px;
-            display: none; /* Initially hidden */
-        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Hospital Resource Analysis</h1>
-    </header>
+    <div class="container">
+       
+        <!-- Resource Input Section -->
+        <div class="resource-input">
+            <div>
+                <label for="beds">Beds Available</label>
+                <input type="number" id="beds" value="30" onchange="updateGraphs()">
+            </div>
+            <div>
+                <label for="icu-beds">ICU Beds Available</label>
+                <input type="number" id="icu-beds" value="15" onchange="updateGraphs()">
+            </div>
+            <div>
+                <label for="ventilators">Ventilators</label>
+                <input type="number" id="ventilators" value="10" onchange="updateGraphs()">
+            </div>
+            <div>
+                <label for="doctors">Doctors on Duty</label>
+                <input type="number" id="doctors" value="20" onchange="updateGraphs()">
+            </div>
+        </div>
 
-    <section class="chart-container">
-        <div class="bar">
-            <div class="bar-label">Beds Available</div>
-            <div id="beds-bar" class="bar-inner" style="width: 0%;">0</div>
+        <!-- Button to Show Graphs -->
+        <div class="button-group">
+            <button onclick="toggleGraphs()">Show Graphs</button>
         </div>
-        <div class="bar">
-            <div class="bar-label">ICU Beds Available</div>
-            <div id="icu-bar" class="bar-inner" style="width: 0%;">0</div>
-        </div>
-        <div class="bar">
-            <div class="bar-label">Ventilators</div>
-            <div id="ventilators-bar" class="bar-inner" style="width: 0%;">0</div>
-        </div>
-        <div class="bar">
-            <div class="bar-label">Doctors on Duty</div>
-            <div id="doctors-bar" class="bar-inner" style="width: 0%;">0</div>
-        </div>
-    </section>
 
-    <section class="input-container">
-        <div class="input-group">
-            <label for="beds">Beds Available</label>
-            <input type="number" id="beds" value="120">
+        <!-- Graph Section -->
+        <div class="chart-container" id="chart-container">
+            <div class="bar">
+                <div class="bar-label">Beds Available</div>
+                <div id="beds-bar" class="bar-inner" style="width: 0%;">0</div>
+            </div>
+            <div class="bar">
+                <div class="bar-label">ICU Beds Available</div>
+                <div id="icu-bar" class="bar-inner" style="width: 0%;">0</div>
+            </div>
+            <div class="bar">
+                <div class="bar-label">Ventilators</div>
+                <div id="ventilators-bar" class="bar-inner" style="width: 0%;">0</div>
+            </div>
+            <div class="bar">
+                <div class="bar-label">Doctors on Duty</div>
+                <div id="doctors-bar" class="bar-inner" style="width: 0%;">0</div>
+            </div>
         </div>
-        <div class="input-group">
-            <label for="icu-beds">ICU Beds Available</label>
-            <input type="number" id="icu-beds" value="15">
-        </div>
-        <div class="input-group">
-            <label for="ventilators">Ventilators</label>
-            <input type="number" id="ventilators" value="8">
-        </div>
-        <div class="input-group">
-            <label for="doctors">Doctors on Duty</label>
-            <input type="number" id="doctors" value="25">
-        </div>
-    </section>
-
-    <section class="input-container">
-        <button onclick="updateChart()">Update Chart</button>
-        <button onclick="resetInputs()">Reset</button>
-    </section>
-
-    <div class="alert-message" id="alert-message">Warning: Please consider adding more resources!</div>
+    </div>
 
     <script>
         const maxResources = {
-            beds: 500,
-            icuBeds: 500,
-            ventilators: 500,
-            doctors: 500
+            beds: 30,
+            icuBeds:15,
+            ventilators: 10,
+            doctors: 20
         };
 
-        function updateChart() {
+        function goHome() {
+            window.location.href = 'home.html'; // Change 'home.html' to your actual home page URL
+        }
+
+        function updateGraphs() {
             const bedsAvailable = document.getElementById('beds').value;
             const icuBedsAvailable = document.getElementById('icu-beds').value;
             const ventilatorsAvailable = document.getElementById('ventilators').value;
@@ -198,30 +220,28 @@
             bar.style.width = percentage + '%';
             bar.textContent = value;
 
-            const alertMessage = document.getElementById('alert-message');
-            alertMessage.style.display = 'none'; // Hide the alert message initially
-
-            // Change colors based on thresholds
+            // Color coding based on percentage
             if (percentage < 25) {
-                bar.style.backgroundColor = 'orange';
-                alertMessage.style.display = 'block'; // Show alert message
-            } else if (percentage < 50) {
                 bar.style.backgroundColor = 'red';
-                alert(`Warning: ${barId.replace('-bar', '').replace('-', ' ')} has dropped below 50%!`);
+            } else if (percentage < 50) {
+                bar.style.backgroundColor = 'orange';
+            } else if (percentage < 75) {
+                bar.style.backgroundColor = 'yellowgreen';
             } else {
-                bar.style.backgroundColor = '#27ae60'; // Reset to original color
+                bar.style.backgroundColor = 'green';
             }
         }
 
-        function resetInputs() {
-            document.getElementById('beds').value = 120;
-            document.getElementById('icu-beds').value = 15;
-            document.getElementById('ventilators').value = 8;
-            document.getElementById('doctors').value = 25;
-
-            updateChart(); // Reset the chart to default values
+        function toggleGraphs() {
+            const chartContainer = document.getElementById('chart-container');
+            if (chartContainer.style.display === 'none' || chartContainer.style.display === '') {
+                chartContainer.style.display = 'block';
+                updateGraphs(); // Ensure the graphs are updated when shown
+            } else {
+                chartContainer.style.display = 'none';
+            }
         }
     </script>
-
+    
 </body>
 </html>
